@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grace.admin.mapper.SysResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.grace.admin.po.SysResource">
+        <result column="ID" property="id" />
+        <result column="NAME" property="name" />
+        <result column="PARENT_ID" property="parentId" />
+        <result column="PERMISSION_CODE" property="permissionCode" />
+        <result column="TYPE" property="type" />
+        <result column="URI" property="uri" />
+        <result column="MENU_ICON" property="menuIcon" />
+        <result column="SORT" property="sort" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="FLAG" property="flag" />
+        <result column="STATUS" property="status" />
+        <result column="IS_ROOT" property="isRoot" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, NAME, PARENT_ID, PERMISSION_CODE, TYPE, URI, MENU_ICON, SORT, DESCRIPTION, FLAG, STATUS, IS_ROOT
+    </sql>
+
+    <select id="selectSysResourceList"  resultType="com.grace.admin.po.SysResource">
+            select res.ID,
+                   res.NAME,
+                   res.PARENT_ID,
+                   res.PERMISSION_CODE,
+                   res.TYPE,
+                   res.URI,
+                   res.MENU_ICON,
+                   res.SORT,
+                   res.FLAG,
+                   res.STATUS,
+                   res.IS_ROOT
+            from sys_resource res
+               left join sys_role_resource srr
+                  on res.id = srr.resource_id
+             where  res.type = 2 and res.status = 1
+              and  srr.role_id = #{roleId}
+    </select>
+
+    <select id="selectPermissionList"  resultType="string">
+            select
+                   res.PERMISSION_CODE
+            from sys_resource res
+               left join sys_role_resource srr
+                  on res.id = srr.resource_id
+             where  res.type = 2 and res.status = 1
+              and  srr.role_id = #{roleId}
+    </select>
+
+    <update id="logicDelete">
+        update  sys_resource res set res.flag = 0 where res.id =#{id}
+    </update>
+
+</mapper>
