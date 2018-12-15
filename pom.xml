@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.grace</groupId>
-	<artifactId>grace-cloud-platform</artifactId>
+	<artifactId>grace-clouds</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<modules>
 		<module>grace-admins</module>
